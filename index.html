@@ -1,0 +1,458 @@
+<!-- 
+<!DOCTYPE html>
+<html>
+<head>
+<title>Startup Chart</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<h2>Startup Assessment Chart</h2>
+
+<canvas id="polarChart" width="600" height="600"></canvas>
+
+<script src="script.js"></script>
+
+</body>
+</html>
+
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+<title>Chart Test</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<h2>Startup Assessment Chart</h2>
+
+<canvas id="polarChart" width="600" height="600"></canvas>
+
+<script>
+
+const labels = [
+'Product Dev Roadmap','MVP','Tech Adoption','UX',
+'Product Mkt Fit','Revenue Model','Sales & Mktg',
+'Min Viable Regret','User Adoption','Tech Integration',
+'Design Flaws','PMF Mirage','Team Dynamics','Burn Rate'
+];
+
+const values = [900,850,950,800,870,820,780,800,700,650,500,750,350,300];
+
+const colors = [
+'#9B59B6','#2980B9','#1ABC9C','#F1C40F','#E67E22','#E74C3C','#FF69B4',
+'#8E44AD','#154360','#117A65','#7D6608','#784212','#1B2631','#27AE60'
+];
+
+const data = {
+labels: labels,
+datasets: [{
+data: values,
+backgroundColor: colors
+}]
+};
+
+new Chart(document.getElementById("polarChart"),{
+type: "polarArea",
+data: data
+});
+
+</script>
+
+</body>
+</html> -->
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+<title>7 Dimensions Radar Chart</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<h2>Anthropic — 7 Dimensions Result</h2>
+
+<canvas id="radarChart" width="700" height="700"></canvas>
+
+<script>
+
+const categories = [
+'Product Development Roadmap',
+'Minimum Viable Product (MVP)',
+'Technology Adoption',
+'User Experience (UX)',
+'Product-Market Fit',
+'Revenue Model',
+'Sales & Marketing Strategy'
+];
+
+const values = [900,850,950,800,870,820,780];
+
+const colors = [
+'#9B59B6','#2980B9','#1ABC9C','#F1C40F','#E67E22','#E74C3C','#FF69B4'
+];
+
+const data = {
+labels: categories,
+datasets: [{
+label: "7 Dimensions Score",
+data: values,
+backgroundColor: "rgba(52,152,219,0.2)",
+borderColor: "#2980B9",
+pointBackgroundColor: colors,
+borderWidth: 2
+}]
+};
+
+const config = {
+type: 'radar',
+data: data,
+options: {
+scales: {
+r: {
+min: 0,
+max: 1000,
+ticks: {
+stepSize: 200
+}
+}
+},
+plugins: {
+legend: {
+position: 'top'
+},
+title: {
+display: true,
+text: 'Expected Impact: 7,000 / 10,000'
+}
+}
+}
+};
+
+new Chart(
+document.getElementById('radarChart'),
+config
+);
+
+</script>
+
+</body>
+</html> -->
+
+
+
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+</head>
+<body style="background:white; padding:20px;">
+
+  <h2 style="text-align:center; font-family:Arial;">
+    Anthropic — 7 Dimensions Result<br>
+    <small style="font-size:14px; color:grey;">Expected Impact: 7,000/10,000</small>
+  </h2>
+
+  STEP 1: HTML canvas setup -->
+  <!-- <div id="legend" style="display:flex; flex-wrap:wrap; gap:10px;
+       justify-content:center; margin-bottom:12px; font-size:12px;
+       font-family:Arial;"></div>
+
+  <div style="position:relative; width:600px; height:600px; margin:auto;">
+    <canvas id="radarChart"></canvas>
+  </div>
+
+  STEP 2: JavaScript initialization
+  <script>
+    const categories = [
+      'Product Development\nRoadmap',
+      'Minimum Viable\nProduct (MVP)',
+      'Technology\nAdoption',
+      'User Experience\n(UX)',
+      'Product-Market\nFit',
+      'Revenue\nModel',
+      'Sales & Marketing\nStrategy'
+    ];
+    const values = [900, 850, 950, 800, 870, 820, 780];
+    const colors = [
+      '#9B59B6','#2980B9','#1ABC9C',
+      '#F1C40F','#E67E22','#E74C3C','#FF69B4'
+    ];
+    const N = categories.length;
+
+    // Build legend
+    const legendEl = document.getElementById('legend');
+    categories.forEach((cat, i) => {
+      legendEl.innerHTML += `
+        <span style="display:flex;align-items:center;gap:5px;">
+          <span style="width:12px;height:12px;background:${colors[i]};
+                border-radius:2px;display:inline-block;"></span>
+          ${cat.replace('\n',' ')} — <b style="color:${colors[i]}">${values[i]}</b>
+        </span>`;
+    });
+
+    // One dataset per dimension (Python style — each fills only its own axis)
+    const datasets = categories.map((cat, i) => {
+      const data = new Array(N).fill(0);
+      data[i] = values[i];
+      return {
+        label: cat,
+        data: data,
+        backgroundColor: colors[i] + '70',
+        borderColor: colors[i],
+        borderWidth: 2,
+        pointBackgroundColor: colors[i],
+        pointRadius: 4,
+      };
+    });
+
+    // Score annotation plugin (equivalent to ax.text in Python)
+    const scorePlugin = {
+      id: 'scoreLabels',
+      afterDatasetsDraw(chart) {
+        const { ctx } = chart;
+        const scale = chart.scales.r;
+        categories.forEach((cat, i) => {
+          const angle = scale.getIndexAngle(i) - Math.PI / 2;
+          const r = scale.getDistanceFromCenterForValue(values[i]) + 20;
+          const x = scale.xCenter + r * Math.cos(angle);
+          const y = scale.yCenter + r * Math.sin(angle);
+          ctx.save();
+          ctx.font = 'bold 11px Arial';
+          ctx.fillStyle = colors[i];
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(values[i], x, y);
+          ctx.restore();
+        });
+      }
+    };
+
+    // Initialize Chart.js radar
+    new Chart(document.getElementById('radarChart'), {
+      type: 'radar',
+      data: { labels: categories, datasets },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            filter: (item) => item.raw > 0,
+            callbacks: {
+              label: (ctx) => ctx.raw > 0
+                ? ` ${ctx.dataset.label}: ${ctx.raw}` : null
+            }
+          }
+        },
+        scales: {
+          r: {
+            min: 0, max: 1000,
+            ticks: {
+              stepSize: 200,
+              color: 'grey',
+              font: { size: 9 },
+              backdropColor: 'transparent'
+            },
+            grid: {
+              color: 'rgba(128,128,128,0.35)',
+              lineWidth: 0.5
+            },
+            angleLines: {
+              color: 'rgba(128,128,128,0.35)',
+              lineWidth: 0.5
+            },
+            pointLabels: {
+              color: '#1a1a2e',
+              font: { size: 10, weight: 'bold' }
+            }
+          }
+        }
+      },
+      plugins: [scorePlugin]
+    });
+  </script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radar Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: white;
+            margin: 0;
+        }
+        .chart-container {
+            width: 800px;
+            height: 800px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="chart-container">
+        <canvas id="radarChart"></canvas>
+    </div>
+
+    <script>
+        // Data Configuration
+        const categories = [
+            ['Product Development', 'Roadmap'], 
+            ['Minimum Viable', 'Product (MVP)'],
+            ['Technology', 'Adoption'], 
+            ['User Experience', '(UX)'],
+            ['Product-Market', 'Fit'], 
+            ['Revenue', 'Model'],
+            ['Sales & Marketing', 'Strategy']
+        ];
+        const values = [900, 850, 950, 800, 870, 820, 780];
+        const colors = ['#9B59B6', '#2980B9', '#1ABC9C', '#F1C40F', '#E67E22', '#E74C3C', '#FF69B4'];
+        
+        // Generate separate datasets to replicate the individual filled wedges from Matplotlib
+        const datasets = values.map((val, i) => {
+            const data = new Array(categories.length).fill(0);
+            data[i] = val; // Set only the specific axis value
+            
+            return {
+                label: `${categories[i].join(' ')}  ${val}`,
+                data: data,
+                backgroundColor: colors[i] + '80', // Hex + 80 = 50% opacity (alpha 0.5)
+                borderColor: colors[i],
+                borderWidth: 2,
+                pointBackgroundColor: colors[i],
+                pointBorderColor: '#fff',
+                pointRadius: 0, // Hiding default points to match matplotlib purely
+                pointHoverRadius: 5
+            };
+        });
+
+        // Custom plugin to draw the value numbers at the tips of the chart (+70 offset)
+        const outerLabelsPlugin = {
+            id: 'outerLabels',
+            afterDatasetsDraw(chart) {
+                const { ctx, scales: { r } } = chart;
+                
+                chart.data.datasets.forEach((dataset, i) => {
+                    const meta = chart.getDatasetMeta(i);
+                    const point = meta.data[i]; // The active point for this specific dataset
+                    
+                    if (point) {
+                        ctx.save();
+                        ctx.fillStyle = dataset.borderColor;
+                        ctx.font = 'bold 12px sans-serif';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        
+                        // Calculate offset equivalent to values[i] + 70 in Matplotlib
+                        const centerX = r.xCenter;
+                        const centerY = r.yCenter;
+                        const angle = Math.atan2(point.y - centerY, point.x - centerX);
+                        const dist = r.getDistanceFromCenterForValue(values[i] + 70);
+                        
+                        const x = centerX + Math.cos(angle) * dist;
+                        const y = centerY + Math.sin(angle) * dist;
+
+                        ctx.fillText(values[i], x, y);
+                        ctx.restore();
+                    }
+                });
+            }
+        };
+
+        // Chart Initialization
+        const ctx = document.getElementById('radarChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: categories,
+                datasets: datasets
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                layout: {
+                    padding: 40 // Add padding so our custom text labels aren't cut off
+                },
+                scales: {
+                    r: {
+                        min: 0,
+                        max: 1000,
+                        backgroundColor: '#f5f5f5', // Matches ax.set_facecolor
+                        ticks: {
+                            stepSize: 200,
+                            color: 'grey',
+                            backdropColor: 'transparent',
+                            font: { size: 10 }
+                        },
+                        grid: {
+                            color: 'rgba(128, 128, 128, 0.5)',
+                            borderDash: [5, 5]
+                        },
+                        pointLabels: {
+                            color: '#1a1a2e',
+                            font: {
+                                size: 11,
+                                weight: 'bold'
+                            }
+                        },
+                        angleLines: {
+                            color: 'rgba(128, 128, 128, 0.5)'
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: ['Anthropic — 7 Dimensions Result', 'Expected Impact: 7,000/10,000'],
+                        color: '#1a1a2e',
+                        font: { size: 16, weight: 'bold' },
+                        padding: { bottom: 30 }
+                    },
+                    legend: {
+                        position: 'right', // Mimics loc='upper right'
+                        align: 'start',
+                        title: {
+                            display: true,
+                            text: '7 Dimensions',
+                            font: { size: 13, weight: 'bold' }
+                        },
+                        labels: {
+                            color: '#333',
+                            font: { size: 11 },
+                            usePointStyle: true,
+                            boxWidth: 8
+                        }
+                    }
+                }
+            },
+            plugins: [outerLabelsPlugin] // Register our custom label plugin
+        });
+    </script>
+</body>
+</html>
